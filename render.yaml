@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: vedere-vision
+    runtime: docker
+    plan: starter  # $7/mo, always on
+    healthCheckPath: /_stcore/health
+    envVars:
+      # These are set in Render dashboard, not here (keep secrets safe)
+      - key: newsdata_key
+        sync: false
+      - key: gemini_key
+        sync: false
+      - key: sheet_name
+        sync: false
+      - key: GCP_SERVICE_ACCOUNT
+        sync: false  # JSON string of service account
