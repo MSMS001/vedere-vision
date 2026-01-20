@@ -1,6 +1,5 @@
 """
-Netflix–WBD Transaction Monitor v7.2
-Enterprise-grade monitoring dashboard for small team use (~10 users)
+Netflix–WBD Transaction Monitor v1
 """
 
 import streamlit as st
@@ -59,13 +58,35 @@ def get_gcp_credentials() -> Optional[Dict[str, Any]]:
             return dict(st.secrets["gcp_service_account"])
     except Exception:
         pass
-    # Fall back to environment variable (JSON string)
+    
+    # Try JSON string from environment variable
     gcp_json = os.environ.get("GCP_SERVICE_ACCOUNT")
     if gcp_json:
         try:
             return json.loads(gcp_json)
         except Exception:
             pass
+    
+    # Try individual environment variables (most reliable for Render)
+    private_key = os.environ.get("GCP_PRIVATE_KEY")
+    client_email = os.environ.get("GCP_CLIENT_EMAIL")
+    
+    if private_key and client_email:
+        # Replace escaped newlines with actual newlines
+        private_key = private_key.replace("\\n", "\n")
+        return {
+            "type": "service_account",
+            "project_id": os.environ.get("GCP_PROJECT_ID", "transaction-monitor-483311"),
+            "private_key_id": os.environ.get("GCP_PRIVATE_KEY_ID", ""),
+            "private_key": private_key,
+            "client_email": client_email,
+            "client_id": os.environ.get("GCP_CLIENT_ID", ""),
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{client_email.replace('@', '%40')}"
+        }
+    
     return None
 
 # ============================================================================
