@@ -1662,7 +1662,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # DEBUG: Show credential status
-st.markdown(f"**Debug:** Cred source: `{data.get('cred_source', 'unknown')}` | Sheet: `{get_secret('sheet_name', 'NOT SET')}` | Archived: `{data.get('archived_count', 0)}`")
+client_email_check = os.environ.get("GCP_CLIENT_EMAIL", "not set")
+st.markdown(f"**Debug:** Cred source: `{data.get('cred_source', 'unknown')}` | Email: `{client_email_check[:30]}...` | Archived: `{data.get('archived_count', 0)}`")
 
 # DEBUG: Show any data loading errors prominently
 if data.get('archive_error'):
