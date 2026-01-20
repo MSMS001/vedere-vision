@@ -1,5 +1,6 @@
 """
-Netflix–WBD Transaction Monitor v1
+Netflix–WBD Transaction Monitor v7.2
+Enterprise-grade monitoring dashboard for small team use (~10 users)
 """
 
 import streamlit as st
@@ -1450,12 +1451,16 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
             sh = gc.open(sheet_name)
             worksheet = sh.sheet1
             archived = worksheet.get_all_records() or []
+        elif not gcp_creds:
+            archive_error = "GCP credentials not found"
+        elif not sheet_name:
+            archive_error = "Sheet name not configured"
     except gspread.exceptions.APIError as e:
-        archive_error = f"Google Sheets API error: {str(e)[:100]}"
+        archive_error = f"Sheets API error: {str(e)[:80]}"
     except gspread.exceptions.SpreadsheetNotFound:
-        archive_error = "Spreadsheet not found"
+        archive_error = f"Spreadsheet '{sheet_name}' not found"
     except Exception as e:
-        archive_error = f"Archive error: {str(e)[:100]}"
+        archive_error = f"Archive: {type(e).__name__}: {str(e)[:60]}"
     
     # Fetch fresh articles using parallel requests
     try:
@@ -1621,7 +1626,8 @@ with st.sidebar:
     if data.get('saved_count', 0) > 0:
         st.markdown(f'<span class="status-success">✓ {data["saved_count"]} new saved</span>', unsafe_allow_html=True)
     if data.get('archive_error'):
-        st.markdown(f'<span class="status-error">Archive error</span>', unsafe_allow_html=True)
+        st.markdown(f'<span class="status-error">⚠ Archive error</span>', unsafe_allow_html=True)
+        st.caption(f"_{data['archive_error'][:80]}_")
     if data.get('api_error'):
         st.markdown(f'<span class="status-warning">API warning</span>', unsafe_allow_html=True)
     
@@ -1647,6 +1653,12 @@ st.markdown(f"""
     <div class="main-title">Netflix–Warner Transaction Monitor<span class="live-badge">Live</span></div>
 </div>
 """, unsafe_allow_html=True)
+
+# DEBUG: Show any data loading errors prominently
+if data.get('archive_error'):
+    st.markdown(f"**⚠️ Archive Error:** `{data['archive_error']}`")
+if data.get('api_error'):
+    st.markdown(f"**⚠️ API Error:** `{data['api_error']}`")
 
 # Stats row
 col1, col2, col3, col4 = st.columns(4)
