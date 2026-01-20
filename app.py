@@ -1452,19 +1452,24 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
     try:
         gcp_creds, cred_source = get_gcp_credentials()
         sheet_name = get_secret("sheet_name")
-        if gcp_creds and sheet_name:
+        sheet_id = get_secret("sheet_id", "1brXDHGcYUuduY8w9ql-7JDi9gCbWb29_ujkY7mYRu18")  # Fallback to known ID
+        if gcp_creds and (sheet_name or sheet_id):
             gc = gspread.service_account_from_dict(gcp_creds)
-            sh = gc.open(sheet_name)
+            # Try opening by ID first (more reliable), then by name
+            try:
+                sh = gc.open_by_key(sheet_id)
+            except:
+                sh = gc.open(sheet_name)
             worksheet = sh.sheet1
             archived = worksheet.get_all_records() or []
         elif not gcp_creds:
             archive_error = "GCP credentials not found"
-        elif not sheet_name:
-            archive_error = "Sheet name not configured"
+        else:
+            archive_error = "Sheet name/ID not configured"
     except gspread.exceptions.APIError as e:
         archive_error = f"Sheets API error: {str(e)[:80]}"
     except gspread.exceptions.SpreadsheetNotFound:
-        archive_error = f"Spreadsheet '{sheet_name}' not found"
+        archive_error = f"Spreadsheet not found (tried ID and name)"
     except Exception as e:
         archive_error = f"Archive: {type(e).__name__}: {str(e)[:60]}"
     
