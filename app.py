@@ -51,12 +51,12 @@ def get_secret(key: str, default: Any = None) -> Any:
     # Fall back to environment variable
     return os.environ.get(key, default)
 
-def get_gcp_credentials() -> Optional[Dict[str, Any]]:
-    """Get GCP service account credentials from secrets or env."""
+def get_gcp_credentials() -> Tuple[Optional[Dict[str, Any]], str]:
+    """Get GCP service account credentials from secrets or env. Returns (creds, source)."""
     # Try Streamlit secrets first
     try:
         if "gcp_service_account" in st.secrets:
-            return dict(st.secrets["gcp_service_account"])
+            return dict(st.secrets["gcp_service_account"]), "streamlit_secrets"
     except Exception:
         pass
     
@@ -64,8 +64,8 @@ def get_gcp_credentials() -> Optional[Dict[str, Any]]:
     gcp_json = os.environ.get("GCP_SERVICE_ACCOUNT")
     if gcp_json:
         try:
-            return json.loads(gcp_json)
-        except Exception:
+            return json.loads(gcp_json), "json_env_var"
+        except Exception as e:
             pass
     
     # Try individual environment variables (most reliable for Render)
@@ -86,9 +86,9 @@ def get_gcp_credentials() -> Optional[Dict[str, Any]]:
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{client_email.replace('@', '%40')}"
-        }
+        }, "individual_env_vars"
     
-    return None
+    return None, "none"
 
 # ============================================================================
 # CONFIGURATION
@@ -1448,8 +1448,9 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
     saved_count = 0
     
     # Load archived articles from Google Sheets
+    cred_source = "unknown"
     try:
-        gcp_creds = get_gcp_credentials()
+        gcp_creds, cred_source = get_gcp_credentials()
         sheet_name = get_secret("sheet_name")
         if gcp_creds and sheet_name:
             gc = gspread.service_account_from_dict(gcp_creds)
@@ -1514,6 +1515,7 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
         'saved_count': saved_count,
         'archive_error': archive_error,
         'api_error': api_error,
+        'cred_source': cred_source,
     }
 
 # ============================================================================
@@ -1617,7 +1619,7 @@ with st.spinner("Loading data..."):
         sec_filings = fetch_sec_filings()
     except Exception as e:
         st.error(f"Error loading data: {safe_escape(str(e)[:200])}")
-        data = {'articles': [], 'archived_count': 0, 'filtered_out': 0, 'saved_count': 0, 'archive_error': None, 'api_error': None}
+        data = {'articles': [], 'archived_count': 0, 'filtered_out': 0, 'saved_count': 0, 'archive_error': None, 'api_error': None, 'cred_source': 'error'}
         sec_filings = []
 
 # Sidebar status
@@ -1660,8 +1662,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # DEBUG: Show credential status
-gcp_creds_check = get_gcp_credentials()
-st.markdown(f"**Debug:** GCP creds: `{'Found' if gcp_creds_check else 'NOT FOUND'}` | Sheet: `{get_secret('sheet_name', 'NOT SET')}` | Archived: `{data.get('archived_count', 0)}`")
+st.markdown(f"**Debug:** Cred source: `{data.get('cred_source', 'unknown')}` | Sheet: `{get_secret('sheet_name', 'NOT SET')}` | Archived: `{data.get('archived_count', 0)}`")
 
 # DEBUG: Show any data loading errors prominently
 if data.get('archive_error'):
