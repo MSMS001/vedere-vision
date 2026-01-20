@@ -1,5 +1,5 @@
 """
-Netflix–WBD Transaction Monitor v7.2
+Netflix–WBD Transaction Monitor v7.3
 Enterprise-grade monitoring dashboard for small team use (~10 users)
 """
 
@@ -51,12 +51,12 @@ def get_secret(key: str, default: Any = None) -> Any:
     # Fall back to environment variable
     return os.environ.get(key, default)
 
-def get_gcp_credentials() -> Tuple[Optional[Dict[str, Any]], str]:
-    """Get GCP service account credentials from secrets or env. Returns (creds, source)."""
+def get_gcp_credentials() -> Optional[Dict[str, Any]]:
+    """Get GCP service account credentials from secrets or env."""
     # Try Streamlit secrets first
     try:
         if "gcp_service_account" in st.secrets:
-            return dict(st.secrets["gcp_service_account"]), "streamlit_secrets"
+            return dict(st.secrets["gcp_service_account"])
     except Exception:
         pass
     
@@ -64,11 +64,11 @@ def get_gcp_credentials() -> Tuple[Optional[Dict[str, Any]], str]:
     gcp_json = os.environ.get("GCP_SERVICE_ACCOUNT")
     if gcp_json:
         try:
-            return json.loads(gcp_json), "json_env_var"
-        except Exception as e:
+            return json.loads(gcp_json)
+        except Exception:
             pass
     
-    # Try individual environment variables (most reliable for Render)
+    # Try individual environment variables (for Render/Docker)
     private_key = os.environ.get("GCP_PRIVATE_KEY")
     client_email = os.environ.get("GCP_CLIENT_EMAIL")
     
@@ -86,15 +86,15 @@ def get_gcp_credentials() -> Tuple[Optional[Dict[str, Any]], str]:
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{client_email.replace('@', '%40')}"
-        }, "individual_env_vars"
+        }
     
-    return None, "none"
+    return None
 
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
 
-APP_VERSION = "7.2"
+APP_VERSION = "7.3"
 DEBUG_MODE = False  # Set to True for verbose date parsing warnings
 
 # Cache TTL settings (seconds)
@@ -192,11 +192,6 @@ if 'cache_invalidated' not in st.session_state:
     st.session_state.cache_invalidated = False
 if 'last_refresh' not in st.session_state:
     st.session_state.last_refresh = datetime.now()
-
-# Force clear cache on first load (temporary for debugging)
-if 'cache_cleared' not in st.session_state:
-    st.cache_data.clear()
-    st.session_state.cache_cleared = True
 
 # ============================================================================
 # AUTO-REFRESH
@@ -1448,30 +1443,25 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
     saved_count = 0
     
     # Load archived articles from Google Sheets
-    cred_source = "unknown"
     try:
-        gcp_creds, cred_source = get_gcp_credentials()
+        gcp_creds = get_gcp_credentials()
         sheet_name = get_secret("sheet_name")
-        sheet_id = get_secret("sheet_id", "1brXDHGcYUuduY8w9ql-7JDi9gCbWb29_ujkY7mYRu18")  # Fallback to known ID
+        sheet_id = get_secret("sheet_id", "1brXDHGcYUuduY8w9ql-7JDi9gCbWb29_ujkY7mYRu18")
         if gcp_creds and (sheet_name or sheet_id):
             gc = gspread.service_account_from_dict(gcp_creds)
-            # Try opening by ID first (more reliable), then by name
+            # Open by ID (more reliable) with name as fallback
             try:
                 sh = gc.open_by_key(sheet_id)
-            except:
+            except Exception:
                 sh = gc.open(sheet_name)
             worksheet = sh.sheet1
             archived = worksheet.get_all_records() or []
-        elif not gcp_creds:
-            archive_error = "GCP credentials not found"
-        else:
-            archive_error = "Sheet name/ID not configured"
     except gspread.exceptions.APIError as e:
         archive_error = f"Sheets API error: {str(e)[:80]}"
     except gspread.exceptions.SpreadsheetNotFound:
-        archive_error = f"Spreadsheet not found (tried ID and name)"
+        archive_error = "Spreadsheet not found"
     except Exception as e:
-        archive_error = f"Archive: {type(e).__name__}: {str(e)[:60]}"
+        archive_error = f"Archive error: {str(e)[:80]}"
     
     # Fetch fresh articles using parallel requests
     try:
@@ -1520,7 +1510,6 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
         'saved_count': saved_count,
         'archive_error': archive_error,
         'api_error': api_error,
-        'cred_source': cred_source,
     }
 
 # ============================================================================
@@ -1624,7 +1613,7 @@ with st.spinner("Loading data..."):
         sec_filings = fetch_sec_filings()
     except Exception as e:
         st.error(f"Error loading data: {safe_escape(str(e)[:200])}")
-        data = {'articles': [], 'archived_count': 0, 'filtered_out': 0, 'saved_count': 0, 'archive_error': None, 'api_error': None, 'cred_source': 'error'}
+        data = {'articles': [], 'archived_count': 0, 'filtered_out': 0, 'saved_count': 0, 'archive_error': None, 'api_error': None}
         sec_filings = []
 
 # Sidebar status
@@ -1637,11 +1626,6 @@ with st.sidebar:
     
     if data.get('saved_count', 0) > 0:
         st.markdown(f'<span class="status-success">✓ {data["saved_count"]} new saved</span>', unsafe_allow_html=True)
-    if data.get('archive_error'):
-        st.markdown(f'<span class="status-error">⚠ Archive error</span>', unsafe_allow_html=True)
-        st.caption(f"_{data['archive_error'][:80]}_")
-    if data.get('api_error'):
-        st.markdown(f'<span class="status-warning">API warning</span>', unsafe_allow_html=True)
     
     st.divider()
     st.caption(f"v{APP_VERSION}")
@@ -1665,16 +1649,6 @@ st.markdown(f"""
     <div class="main-title">Netflix–Warner Transaction Monitor<span class="live-badge">Live</span></div>
 </div>
 """, unsafe_allow_html=True)
-
-# DEBUG: Show credential status
-client_email_check = os.environ.get("GCP_CLIENT_EMAIL", "not set")
-st.markdown(f"**Debug:** Cred source: `{data.get('cred_source', 'unknown')}` | Email: `{client_email_check[:30]}...` | Archived: `{data.get('archived_count', 0)}`")
-
-# DEBUG: Show any data loading errors prominently
-if data.get('archive_error'):
-    st.markdown(f"**⚠️ Archive Error:** `{data['archive_error']}`")
-if data.get('api_error'):
-    st.markdown(f"**⚠️ API Error:** `{data['api_error']}`")
 
 # Stats row
 col1, col2, col3, col4 = st.columns(4)
