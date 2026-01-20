@@ -193,6 +193,11 @@ if 'cache_invalidated' not in st.session_state:
 if 'last_refresh' not in st.session_state:
     st.session_state.last_refresh = datetime.now()
 
+# Force clear cache on first load (temporary for debugging)
+if 'cache_cleared' not in st.session_state:
+    st.cache_data.clear()
+    st.session_state.cache_cleared = True
+
 # ============================================================================
 # AUTO-REFRESH
 # ============================================================================
@@ -1653,6 +1658,10 @@ st.markdown(f"""
     <div class="main-title">Netflix–Warner Transaction Monitor<span class="live-badge">Live</span></div>
 </div>
 """, unsafe_allow_html=True)
+
+# DEBUG: Show credential status
+gcp_creds_check = get_gcp_credentials()
+st.markdown(f"**Debug:** GCP creds: `{'Found' if gcp_creds_check else 'NOT FOUND'}` | Sheet: `{get_secret('sheet_name', 'NOT SET')}` | Archived: `{data.get('archived_count', 0)}`")
 
 # DEBUG: Show any data loading errors prominently
 if data.get('archive_error'):
