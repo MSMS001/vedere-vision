@@ -1,5 +1,5 @@
 """
-Netflix–WBD Transaction Monitor v7.3
+Netflix–WBD Transaction Monitor v1.0
 Enterprise-grade monitoring dashboard for small team use (~10 users)
 """
 
@@ -94,7 +94,7 @@ def get_gcp_credentials() -> Optional[Dict[str, Any]]:
 # CONFIGURATION
 # ============================================================================
 
-APP_VERSION = "7.3"
+APP_VERSION = "1.0"
 DEBUG_MODE = False  # Set to True for verbose date parsing warnings
 
 # Cache TTL settings (seconds)
@@ -203,7 +203,7 @@ st.markdown(
 )
 
 # ============================================================================
-# CSS STYLING - Enterprise Polish with Apple Design
+# CSS STYLING - Enterprise Polish with Apple Design (Tightened)
 # ============================================================================
 
 st.markdown("""
@@ -231,13 +231,13 @@ st.markdown("""
         --accent-orange: #FF9500;
         --accent-orange-bg: rgba(255, 149, 0, 0.12);
         --accent-purple: #AF52DE;
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-        --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.15);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 3px 10px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 5px 16px rgba(0, 0, 0, 0.12);
         --radius-sm: 8px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
+        --radius-md: 10px;
+        --radius-lg: 12px;
         --transition-fast: 0.15s ease;
         --transition-normal: 0.25s ease;
     }
@@ -251,6 +251,7 @@ st.markdown("""
         background-color: var(--bg-primary) !important;
         color: var(--text-primary) !important;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif !important;
+        font-weight: 400 !important;
         -webkit-font-smoothing: antialiased !important;
         -moz-osx-font-smoothing: grayscale !important;
     }
@@ -273,9 +274,9 @@ st.markdown("""
     .main-header {
         background: linear-gradient(135deg, #1D1D1F 0%, #3A3A3C 100%) !important;
         color: #FFFFFF !important;
-        padding: 1.75rem 2rem !important;
+        padding: 1.25rem 1.5rem !important;
         border-radius: var(--radius-lg) !important;
-        margin-bottom: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
         box-shadow: var(--shadow-lg) !important;
         position: relative !important;
         overflow: hidden !important;
@@ -336,8 +337,8 @@ st.markdown("""
         background: var(--bg-card) !important;
         border: 1px solid var(--border-light) !important;
         border-radius: var(--radius-md) !important;
-        padding: 1.5rem !important;
-        margin-bottom: 1rem !important;
+        padding: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
         box-shadow: var(--shadow-sm) !important;
         transition: box-shadow var(--transition-normal), border-color var(--transition-normal) !important;
     }
@@ -353,8 +354,8 @@ st.markdown("""
         border: 1px solid var(--border-light) !important;
         border-left: 4px solid var(--accent-red) !important;
         border-radius: var(--radius-sm) !important;
-        padding: 0.875rem 1.25rem !important;
-        margin: 1rem 0 !important;
+        padding: 0.625rem 1rem !important;
+        margin: 0.5rem 0 !important;
         font-size: 0.9375rem !important;
         color: var(--text-primary) !important;
         box-shadow: var(--shadow-sm) !important;
@@ -390,7 +391,7 @@ st.markdown("""
         color: var(--text-tertiary) !important;
         text-transform: uppercase !important;
         letter-spacing: 0.1em !important;
-        margin: 1.75rem 0 1rem 0 !important;
+        margin: 1rem 0 0.5rem 0 !important;
         padding: 0 !important;
     }
     
@@ -399,17 +400,17 @@ st.markdown("""
         background: var(--bg-card) !important;
         border: 1px solid var(--border-light) !important;
         border-radius: var(--radius-md) !important;
-        padding: 1.75rem !important;
-        margin-bottom: 1rem !important;
+        padding: 1.25rem !important;
+        margin-bottom: 0.5rem !important;
         box-shadow: var(--shadow-sm) !important;
     }
     
     .summary-paragraph {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
         font-size: 0.9375rem !important;
-        line-height: 1.75 !important;
+        line-height: 1.6 !important;
         color: var(--text-primary) !important;
-        margin-bottom: 1.25em !important;
+        margin-bottom: 0.75em !important;
         text-align: justify !important;
         hyphens: auto !important;
     }
@@ -447,7 +448,7 @@ st.markdown("""
     /* ===== METRICS ===== */
     [data-testid="stMetricValue"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        font-size: 1.875rem !important;
+        font-size: 1.5rem !important;
         font-weight: 600 !important;
         color: var(--text-primary) !important;
         letter-spacing: -0.02em !important;
@@ -455,10 +456,14 @@ st.markdown("""
     
     [data-testid="stMetricLabel"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        font-size: 0.8125rem !important;
+        font-size: 0.75rem !important;
         color: var(--text-secondary) !important;
         text-transform: none !important;
         font-weight: 500 !important;
+    }
+    
+    .row-widget.stMetric {
+        margin-bottom: 0.5rem !important;
     }
     
     /* ===== TABS ===== */
@@ -475,7 +480,7 @@ st.markdown("""
         font-weight: 500 !important;
         color: var(--text-secondary) !important;
         border-radius: 8px !important;
-        padding: 0.5rem 1rem !important;
+        padding: 0.375rem 0.75rem !important;
         background: transparent !important;
         border: none !important;
         transition: all var(--transition-fast) !important;
@@ -498,7 +503,7 @@ st.markdown("""
     
     /* ===== FEED ITEMS ===== */
     .feed-item {
-        padding: 0.875rem 0 !important;
+        padding: 0.625rem 0 !important;
         border-bottom: 1px solid var(--border-light) !important;
         transition: background-color var(--transition-fast) !important;
     }
@@ -547,7 +552,7 @@ st.markdown("""
     /* ===== LINKS & TYPOGRAPHY ===== */
     [data-testid="stMarkdown"] p {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        line-height: 1.65 !important;
+        line-height: 1.55 !important;
         color: var(--text-primary) !important;
     }
     
@@ -566,7 +571,7 @@ st.markdown("""
     hr {
         border: none !important;
         border-top: 1px solid var(--border-light) !important;
-        margin: 1.25rem 0 !important;
+        margin: 0.75rem 0 !important;
     }
     
     /* ===== SPINNER ===== */
@@ -586,8 +591,8 @@ st.markdown("""
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
         font-size: 0.8125rem !important;
         color: var(--text-primary) !important;
-        padding: 0.375rem 0 !important;
-        line-height: 1.5 !important;
+        padding: 0.25rem 0 !important;
+        line-height: 1.4 !important;
         border-bottom: 1px solid var(--border-light) !important;
     }
     
@@ -699,61 +704,132 @@ TIER2_SOURCES = [
     'cision', 'gamespot', 'ign', 'insidermonkey', 'moneycontrol',
 ]
 
-TRUSTED_SOURCE_PATTERNS = TIER1_SOURCES + TIER2_SOURCES + [
-    'netflix', 'wbd', 'paramount', 'ftc', 'doj',
-    'livemint', 'economictimes',
+# Regulatory keywords and patterns
+REGULATORY_PATTERNS = [
+    r'(doj|department of justice|antitrust)',
+    r'(ftc|federal trade commission)',
+    r'(european commission|ec approval|eu regulator)',
+    r'(cma|competition.{0,10}markets)',
+    r'(competition bureau|canada regulator)',
+    r'(hsr|hart-scott-rodino)',
+    r'regulatory (review|approval|hurdle|scrutiny)',
+    r'antitrust (review|concern|issue|scrutiny)',
+    r'merger (review|approval|blocked)',
 ]
 
-# Expanded deal context patterns for better relevance filtering
+# Deal-specific terms
+DEAL_PATTERNS = [
+    r'(\$82|\$83|\$85).{0,5}billion',
+    r'(\$108|\$110).{0,5}billion',
+    r'\$30.{0,5}(per share|/share)',
+    r'tender offer',
+    r'hostile (bid|takeover)',
+    r'poison pill',
+    r'shareholder (vote|approval|meeting)',
+    r'board (reject|accept|consider)',
+]
+
+# Must contain deal context patterns
 MUST_CONTAIN_DEAL_CONTEXT = [
-    # Netflix-Warner acquisition patterns
-    r'netflix.{0,50}(acqui|merg|buy|bid|purchase).{0,30}warner',
-    r'warner.{0,50}(acqui|merg|bid|takeover|purchase).{0,30}netflix',
-    r'wbd.{0,50}(netflix|merger|acquisition)',
+    r'netflix.{0,30}(acquire|acqui|buy|bid|offer|merge|deal).{0,30}(warner|wbd|discovery)',
+    r'(warner|wbd|discovery).{0,30}(acquire|acqui|buy|bid|offer|merge|deal).{0,30}netflix',
+    r'netflix.{0,50}warner',
+    r'warner.{0,50}netflix',
+    r'wbd.{0,30}netflix',
     r'netflix.{0,30}wbd',
-    r'netflix buys wbd',
-    r'netflix buys warner',
-    r'netflix acquires warner',
-    r'netflix acquires wbd',
-    
-    # Executive-specific patterns
+    r'paramount.{0,30}(warner|wbd).{0,30}(bid|offer|hostile|tender)',
+    r'(warner|wbd).{0,30}paramount.{0,30}(bid|offer|hostile|tender)',
+    r'skydance.{0,30}(warner|wbd)',
+    r'ellison.{0,30}(warner|wbd)',
     r'netflix.{0,50}zaslav',
     r'zaslav.{0,30}(netflix|merger|deal|acquisition)',
     r'sarandos.{0,30}(warner|wbd|acquisition|merger)',
     r'netflix.{0,50}sarandos.{0,30}warner',
-    
-    # Paramount competing bid patterns
+    r'netflix buys wbd',
+    r'netflix buys warner',
+    r'netflix acquires warner',
+    r'netflix acquires wbd',
     r'paramount.{0,50}(hostile|tender|takeover).{0,30}(warner|wbd)',
     r'skydance.{0,50}(bid|offer).{0,30}(warner|wbd)',
     r'ellison.{0,30}(warner|wbd|bid|offer)',
-    
-    # Regulatory patterns
     r'(ftc|doj|antitrust).{0,50}(netflix.{0,30}warner|warner.{0,30}netflix)',
     r'(european commission|ec).{0,30}(netflix|warner).{0,30}(merger|review)',
     r'(cma|competition).{0,30}(netflix|warner).{0,30}(review|merger)',
     r'(competition bureau|canada).{0,30}(netflix|warner)',
     r'hsr.{0,20}(netflix|warner)',
-    r'hart-scott-rodino.{0,30}(netflix|warner)',
-    
-    # Deal value patterns
     r'\$82.{0,20}billion',
     r'\$83.{0,20}billion',
     r'\$108.{0,20}billion',
     r'\$30.{0,10}(per share|share)',
-    
-    # Tender offer patterns
     r'tender offer.{0,30}(warner|wbd|paramount)',
     r'bidding war.{0,30}(warner|wbd)',
     r'hostile.{0,30}(bid|takeover).{0,30}(warner|wbd)',
-    
-    # HBO/Max specific
     r'(hbo|hbo max).{0,30}(netflix.{0,20}acquisition|sold to netflix)',
     r'max streaming.{0,30}(netflix|acquisition|merger)',
 ]
 
 # ============================================================================
-# API CONFIGURATION
+# SEC FILING CONFIGURATION
 # ============================================================================
+
+SEC_MA_FORMS = [
+    'SC 13D', 'SC 13D/A', 'SC 13G', 'SC 13G/A',  # Beneficial ownership
+    'SC TO-T', 'SC TO-T/A', 'SC TO-C', 'SC 14D9', 'SC 14D9/A',  # Tender offers
+    'DEFM14A', 'DEFM14C', 'PREM14A', 'PREM14C',  # Proxy statements
+    'S-4', 'S-4/A', 'S-4EF',  # Registration for M&A
+    '425', 'DEFA14A',  # M&A communications
+    '8-K', '8-K/A',  # Current reports (material events)
+]
+
+SEC_FORM_DESCRIPTIONS = {
+    'SC 13D': 'Activist investor stake disclosure',
+    'SC 13D/A': 'Amended activist stake disclosure',
+    'SC 13G': 'Passive investor stake disclosure',
+    'SC 13G/A': 'Amended passive stake disclosure',
+    'SC TO-T': 'Third-party tender offer statement',
+    'SC TO-T/A': 'Amended tender offer statement',
+    'SC TO-C': 'Tender offer communication',
+    'SC 14D9': 'Target company tender offer response',
+    'SC 14D9/A': 'Amended tender offer response',
+    'DEFM14A': 'Definitive merger proxy statement',
+    'DEFM14C': 'Definitive merger information statement',
+    'PREM14A': 'Preliminary merger proxy statement',
+    'PREM14C': 'Preliminary merger information statement',
+    'S-4': 'M&A registration statement',
+    'S-4/A': 'Amended M&A registration',
+    'S-4EF': 'Automatic M&A registration',
+    '425': 'M&A prospectus communication',
+    'DEFA14A': 'Additional proxy solicitation material',
+    '8-K': 'Material event report',
+    '8-K/A': 'Amended material event report',
+}
+
+SEC_COMPANIES = {
+    'Netflix': '0001065280',
+    'Warner Bros Discovery': '0001437107',
+    'Paramount': '0000813828',
+}
+
+# ============================================================================
+# NEWS API CONFIGURATION
+# ============================================================================
+
+BASE_URL = "https://newsdata.io/api/1/news"
+
+# ============================================================================
+# AI SUMMARY CONFIGURATION - Pydantic Schema
+# ============================================================================
+
+class SummaryParagraph(BaseModel):
+    """Schema for a single summary paragraph."""
+    content: str = Field(description="The paragraph content with citation numbers in [N] format")
+    citations: List[int] = Field(description="List of source numbers cited in this paragraph")
+
+class ExecutiveSummary(BaseModel):
+    """Schema for the complete executive summary."""
+    recent_developments: SummaryParagraph = Field(description="Paragraph about recent transaction developments in the last 48-72 hours")
+    regulatory_status: SummaryParagraph = Field(description="Paragraph about regulatory and legal status from DOJ, FTC, EC, UK CMA, and Canadian Competition Bureau")
+    deal_comparison: SummaryParagraph = Field(description="Paragraph comparing competing offers and deal structures")
 
 # Configure Gemini with error handling
 GEMINI_AVAILABLE = False
@@ -765,71 +841,6 @@ try:
 except Exception as e:
     GEMINI_AVAILABLE = False
 
-BASE_URL = "https://newsdata.io/api/1/latest"
-
-# SEC EDGAR Configuration
-SEC_COMPANIES = {
-    'Netflix': '0001065280',
-    'Warner Bros Discovery': '0001437107',
-    'Paramount': '0000813828',
-}
-
-RELEVANT_FORMS = ['8-K', '10-K', '10-Q', 'DEF 14A', 'DEFM14A', 'SC 13D', 'SC 13G', 
-                  'S-4', '424B3', 'PREM14A', 'DEFA14A', 'SC TO-T', 'SC TO-C', 'SC 14D9']
-
-SEC_FORM_DESCRIPTIONS = {
-    '8-K': 'Material Event Report',
-    '8-K/A': 'Material Event Report (Amended)',
-    '10-K': 'Annual Report',
-    '10-K/A': 'Annual Report (Amended)',
-    '10-Q': 'Quarterly Report',
-    '10-Q/A': 'Quarterly Report (Amended)',
-    'DEF 14A': 'Definitive Proxy Statement',
-    'DEFM14A': 'Definitive Merger Proxy Statement',
-    'DEFA14A': 'Additional Proxy Materials',
-    'PREM14A': 'Preliminary Proxy Statement',
-    'SC 13D': 'Beneficial Ownership Report (Activist)',
-    'SC 13D/A': 'Beneficial Ownership Report (Amended)',
-    'SC 13G': 'Beneficial Ownership Report (Passive)',
-    'SC 13G/A': 'Beneficial Ownership Report (Amended)',
-    'S-4': 'Registration for M&A Securities',
-    'S-4/A': 'Registration for M&A Securities (Amended)',
-    '424B3': 'Prospectus Supplement',
-    'SC TO-T': 'Tender Offer Statement (Third Party)',
-    'SC TO-T/A': 'Tender Offer Statement (Amended)',
-    'SC TO-C': 'Tender Offer Communication',
-    'SC 14D9': 'Tender Offer Response',
-    'SC 14D9/A': 'Tender Offer Response (Amended)',
-}
-
-# ============================================================================
-# PYDANTIC SCHEMAS FOR STRUCTURED OUTPUT
-# ============================================================================
-
-class SummaryParagraph(BaseModel):
-    """A single paragraph of the executive summary"""
-    content: str = Field(
-        description="The paragraph text. MUST include $ before all currency amounts. Use [N] for citations."
-    )
-    citations: List[int] = Field(
-        description="List of citation numbers used in this paragraph"
-    )
-
-class DealTerms(BaseModel):
-    """Structured deal information"""
-    total_value: Optional[str] = Field(default=None)
-    per_share_price: Optional[str] = Field(default=None)
-    structure: Optional[str] = Field(default=None)
-    assets_included: Optional[str] = Field(default=None)
-
-class ExecutiveSummary(BaseModel):
-    """Complete structured executive summary"""
-    recent_developments: SummaryParagraph
-    regulatory_status: SummaryParagraph
-    deal_comparison: SummaryParagraph
-    netflix_deal: Optional[DealTerms] = None
-    paramount_deal: Optional[DealTerms] = None
-
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
@@ -840,164 +851,73 @@ def safe_escape(text: Any) -> str:
         return ""
     return html.escape(str(text))
 
-def get_source_tier(source_id: Optional[str]) -> int:
-    """Get the tier (1, 2, or 3) of a source. Lower is better."""
+def get_source_tier(source_id: str) -> int:
+    """Return 1 for tier1, 2 for tier2, 3 for other sources."""
     if not source_id:
         return 3
     source_lower = source_id.lower()
-    for pattern in TIER1_SOURCES:
-        if pattern in source_lower:
-            return 1
-    for pattern in TIER2_SOURCES:
-        if pattern in source_lower:
-            return 2
+    if any(t in source_lower for t in TIER1_SOURCES):
+        return 1
+    if any(t in source_lower for t in TIER2_SOURCES):
+        return 2
     return 3
 
-def is_trusted_source(source_id: Optional[str]) -> bool:
-    """Check if source matches any trusted pattern."""
-    if not source_id:
-        return False
-    source_lower = source_id.lower()
-    return any(pattern in source_lower for pattern in TRUSTED_SOURCE_PATTERNS)
-
-def extract_headline(title: Optional[str]) -> str:
-    """Extract just the headline with aggressive truncation."""
-    if not title:
-        return "Untitled"
-    title = str(title).strip()
-    
-    for i, char in enumerate(title):
-        if i > 30 and char in '.!?':
-            return safe_escape(title[:i+1])
-        if i >= 80:
-            last_space = title[:80].rfind(' ')
-            if last_space > 40:
-                return safe_escape(title[:last_space] + "...")
-            return safe_escape(title[:77] + "...")
-    
-    result = title if len(title) <= 100 else title[:97] + "..."
-    return safe_escape(result)
-
-def categorize_article(article: Dict[str, Any]) -> Tuple[str, str, str]:
-    """Categorize article by topic."""
-    combined = f"{article.get('title', '')} {article.get('description', '')}".lower()
-    if any(w in combined for w in ['ftc', 'doj', 'antitrust', 'regulatory', 'commission', 'review', 
-                                    'approval', 'justice department', 'sec filing', 'hsr', 'hart-scott-rodino',
-                                    'european commission', 'competition bureau', 'merger review', 'unlawful',
-                                    'cma', 'competition and markets authority', 'uk regulator']):
-        return 'regulatory', '⚖️', '#DC2626'
-    elif any(w in combined for w in ['paramount', 'skydance', 'hostile', 'tender', 'competing', 'bidding war']):
-        return 'bids', '🎯', '#D97706'
-    elif any(w in combined for w in ['analyst', 'concern', 'impact', 'opinion', 'consolidation']):
-        return 'analysis', '📊', '#7C3AED'
-    return 'deal', '📋', '#2563EB'
-
-def is_high_importance(article: Dict[str, Any]) -> bool:
-    """Check if article is from a Tier 1 premium source or contains key keywords."""
-    source = (article.get('source_id') or '').lower()
-    title = (article.get('title') or '').lower()
-    
-    if get_source_tier(source) == 1:
-        return True
-    
-    keywords = ['announce', 'official', 'reject', 'approve', 'board unanimously', 'confirms', 'closes']
-    return any(k in title for k in keywords)
-
-def is_relevant_article(article: Dict[str, Any]) -> bool:
-    """Enhanced relevance check with configurable blocked sources."""
-    source = (article.get('source_id') or '').lower()
-    
-    # Check blocked sources (configurable list)
-    if any(blocked in source for blocked in BLOCKED_SOURCES):
-        return False
-    
-    if not is_trusted_source(source):
-        return False
-    
-    title = (article.get('title') or '').lower()
-    description = (article.get('description') or '').lower()
-    combined = f"{title} {description}"
-    
-    # Check irrelevant patterns
-    for pattern in IRRELEVANT_PATTERNS:
-        if re.search(pattern, combined, re.IGNORECASE):
-            return False
-    
-    # Check deal context patterns (expanded)
-    for pattern in MUST_CONTAIN_DEAL_CONTEXT:
-        if re.search(pattern, combined, re.IGNORECASE):
-            return True
-    
-    # Fallback: general acquisition context
-    has_netflix = 'netflix' in combined
-    has_warner = 'warner' in combined or 'wbd' in combined
-    acquisition_words = ['acquire', 'acquisition', 'merger', 'takeover', 'bid', 'hostile', 
-                         'tender offer', 'buyout', 'purchase agreement', 'deal']
-    has_acquisition = any(word in combined for word in acquisition_words)
-    
-    return has_netflix and has_warner and has_acquisition
-
-def get_url_path(url: Optional[str]) -> str:
-    """Extract URL path for similarity comparison."""
-    if not url:
-        return ""
+def get_url_path(url: str) -> str:
+    """Extract the path from a URL for deduplication."""
     try:
-        parsed = urlparse(str(url))
-        return parsed.path.lower().strip('/')
+        parsed = urlparse(url)
+        return parsed.path.strip('/').lower()
     except Exception:
-        return ""
+        return url
 
-def title_similarity(t1: Optional[str], t2: Optional[str]) -> float:
-    """Calculate title similarity."""
-    if not t1 or not t2:
-        return 0.0
-    t1_clean = re.sub(r'[^\w\s]', '', str(t1).lower())
-    t2_clean = re.sub(r'[^\w\s]', '', str(t2).lower())
-    return SequenceMatcher(None, t1_clean, t2_clean).ratio()
-
-def url_path_similarity(url1: Optional[str], url2: Optional[str]) -> float:
-    """Calculate URL path similarity."""
+def url_path_similarity(url1: str, url2: str) -> float:
+    """Calculate similarity between URL paths."""
     path1 = get_url_path(url1)
     path2 = get_url_path(url2)
-    if not path1 or not path2:
-        return 0.0
     return SequenceMatcher(None, path1, path2).ratio()
 
-def deduplicate_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """
-    Enhanced deduplication with higher threshold and URL path check.
-    Uses 0.75 similarity threshold and checks both title and URL path.
-    """
-    if not articles:
-        return []
-    
-    # Sort by source tier (best sources first)
-    sorted_articles = sorted(articles, key=lambda a: get_source_tier(a.get('source_id', '')))
-    
-    unique: List[Dict[str, Any]] = []
-    seen_titles: List[str] = []
-    seen_urls: List[str] = []
-    
-    for article in sorted_articles:
-        title = article.get('title', '')
-        url = article.get('link', '')
-        
-        if not title:
-            continue
-            
-        # Check title similarity (threshold: 0.75)
-        is_title_duplicate = any(title_similarity(title, seen) > 0.75 for seen in seen_titles)
-        
-        # Check URL path similarity (threshold: 0.85)
-        is_url_duplicate = any(url_path_similarity(url, seen) > 0.85 for seen in seen_urls)
-        
-        if not is_title_duplicate and not is_url_duplicate:
-            unique.append(article)
-            seen_titles.append(title)
-            if url:
-                seen_urls.append(url)
-    
-    return unique
+def format_source(source_id: str) -> str:
+    """Format source name for display with escaping."""
+    if not source_id:
+        return "Unknown"
+    mapping = {
+        'wsj': 'WSJ', 'nytimes': 'NYT', 'washingtonpost': 'WaPo',
+        'bbc': 'BBC', 'cnn': 'CNN', 'cnbc': 'CNBC', 'cbc': 'CBC',
+        'apnews': 'AP', 'reuters': 'Reuters', 'bloomberg': 'Bloomberg',
+        'variety': 'Variety', 'deadline': 'Deadline', 'hollywoodreporter': 'THR',
+        'theverge': 'Verge', 'techcrunch': 'TechCrunch', 'forbes': 'Forbes',
+        'globeandmail': 'Globe & Mail', 'nationalpost': 'National Post',
+        'seekingalpha': 'Seeking Alpha', 'marketwatch': 'MarketWatch',
+    }
+    source_lower = source_id.lower()
+    for key, val in mapping.items():
+        if key in source_lower:
+            return safe_escape(val)
+    return safe_escape(source_id.title().replace('_', ' ')[:20])
+
+def format_date(date_str: Optional[str]) -> str:
+    """Format date for display."""
+    if not date_str:
+        return "Unknown"
+    try:
+        dt = parse_pubdate(date_str)
+        if dt == datetime.min:
+            return "Unknown"
+        return dt.strftime("%b %d")
+    except Exception:
+        return "Unknown"
+
+def format_date_full(date_str: Optional[str]) -> str:
+    """Format full date for prompts."""
+    if not date_str:
+        return "Unknown date"
+    try:
+        dt = parse_pubdate(date_str)
+        if dt == datetime.min:
+            return "Unknown date"
+        return dt.strftime("%B %d, %Y")
+    except Exception:
+        return "Unknown date"
 
 def parse_pubdate(date_str: Optional[str]) -> datetime:
     """
@@ -1044,239 +964,114 @@ def parse_pubdate(date_str: Optional[str]) -> datetime:
     
     return datetime.min
 
-def format_date(date_str: Optional[str]) -> str:
-    """Format date for display."""
-    dt = parse_pubdate(date_str)
-    if dt == datetime.min:
-        return "Unknown"
-    diff = (datetime.utcnow() - dt).days
-    if diff == 0:
-        return "Today"
-    if diff == 1:
-        return "Yesterday"
-    if diff < 7:
-        return f"{diff} days ago"
-    return dt.strftime("%b %d, %Y")
+def extract_headline(title: str) -> str:
+    """Clean and truncate headline with escaping."""
+    if not title:
+        return "Untitled"
+    # Remove common suffixes
+    for sep in [' | ', ' - ', ' – ', ' — ']:
+        if sep in title:
+            title = title.split(sep)[0]
+    return safe_escape(title[:120] + ('...' if len(title) > 120 else ''))
 
-def format_date_full(date_str: Optional[str]) -> str:
-    """Format date with full timestamp."""
-    dt = parse_pubdate(date_str)
-    if dt == datetime.min:
-        return "Unknown"
-    return dt.strftime("%B %d, %Y")
-
-def format_source(source_id: Optional[str]) -> str:
-    """Format source name for display."""
-    names = {
-        'netflix': 'Netflix', 'netflix_ir': 'Netflix IR', 'wbd_ir': 'WBD IR',
-        'wbd': 'Warner Bros. Discovery', 'paramount': 'Paramount',
-        'reuters': 'Reuters', 'bloomberg': 'Bloomberg', 'wsj': 'Wall Street Journal',
-        'apnews': 'AP News', 'afp': 'AFP', 'bbc': 'BBC', 'cnn': 'CNN', 'cnbc': 'CNBC',
-        'nytimes': 'New York Times', 'latimes': 'Los Angeles Times',
-        'chicagotribune': 'Chicago Tribune', 'usatoday': 'USA Today',
-        'nypost': 'New York Post', 'bostonglobo': 'Boston Globe',
-        'washingtonpost': 'Washington Post',
-        'variety': 'Variety', 'deadline': 'Deadline', 'hollywoodreporter': 'Hollywood Reporter',
-        'indiewire': 'IndieWire', 'screendaily': 'Screen Daily', 'vulture': 'Vulture',
-        'rollingstone': 'Rolling Stone', 'ew': 'Entertainment Weekly', 'avclub': 'AV Club',
-        'thewrap': 'The Wrap',
-        'globeandmail': 'Globe and Mail', 'theglobeandmail': 'Globe and Mail',
-        'cbc': 'CBC News', 'cbcnews': 'CBC News', 
-        'nationalpost': 'National Post', 'financialpost': 'Financial Post',
-        'thestar': 'Toronto Star', 'bnnbloomberg': 'BNN Bloomberg',
-        'bnnbloomberg_ca': 'BNN Bloomberg', 'globalnews': 'Global News',
-        'winnipegfreepress': 'Winnipeg Free Press', 'halifaxtoday': 'Halifax Today',
-        'ctv': 'CTV News', 'ctvnews': 'CTV News',
-        'ft': 'Financial Times', 'marketwatch': 'MarketWatch', 'barrons': "Barron's",
-        'seekingalpha': 'Seeking Alpha', 'benzinga': 'Benzinga', 'thestreet': 'The Street',
-        'foxbusiness': 'Fox Business', 'moneycontrol': 'Moneycontrol',
-        'livemint': 'Mint', 'economictimes': 'Economic Times',
-        'economictimes_indiatimes': 'Economic Times',
-        'techcrunch': 'TechCrunch', 'theverge': 'The Verge', 'engadget': 'Engadget',
-        'arstechnica': 'Ars Technica', 'wired': 'Wired', 'fastcompany': 'Fast Company',
-        'businessinsider': 'Business Insider', 'insider': 'Insider', 'forbes': 'Forbes',
-        'nbcnews': 'NBC News', 'abcnews': 'ABC News', 'cbsnews': 'CBS News',
-        'foxnews': 'Fox News', 'msnbc': 'MSNBC', 'abc7': 'ABC7',
-        'guardian': 'The Guardian', 'theguardian': 'The Guardian',
-        'independent': 'The Independent', 'independentuk': 'The Independent',
-        'telegraph': 'The Telegraph', 'euronews': 'Euronews', 'dw': 'DW',
-        'france24': 'France 24', 'aljazeera': 'Al Jazeera', 'scmp': 'SCMP',
-        'prnewswire': 'PR Newswire', 'prnewswire_co_uk': 'PR Newswire',
-        'businesswire': 'Business Wire', 'globenewswire': 'GlobeNewswire', 'cision': 'Cision',
-        'ftc': 'FTC', 'doj': 'DOJ', 'justice': 'DOJ',
-        'eu_commission': 'EU Commission', 'europa': 'EU Commission', 'ec': 'EU Commission',
-        'sec': 'SEC', 'competitionbureau': 'Competition Bureau',
-        'cma': 'UK CMA', 'gov_uk': 'UK Gov',
-    }
-    if not source_id:
-        return 'Unknown'
-    formatted = names.get(source_id.lower(), source_id.replace('_', ' ').title())
-    if len(formatted) > 30:
-        formatted = formatted[:27] + "..."
-    return safe_escape(formatted)
-
-# ============================================================================
-# SUMMARY GENERATION
-# ============================================================================
-
-def format_summary_html(summary: ExecutiveSummary, source_urls: Dict[int, str]) -> str:
-    """Convert structured summary to formatted HTML."""
+def is_relevant_article(article: Dict[str, Any]) -> bool:
+    """Filter for transaction-relevant articles."""
+    title = (article.get('title') or '').lower()
+    desc = (article.get('description') or '').lower()
+    source = (article.get('source_id') or '').lower()
+    text = title + ' ' + desc
     
-    def format_paragraph_with_citations(para: SummaryParagraph) -> str:
-        text = para.content
-        for num in sorted(para.citations, reverse=True):
-            url = source_urls.get(num, "#")
-            text = text.replace(
-                f"[{num}]",
-                f'<sup><a href="{safe_escape(url)}" target="_blank">[{num}]</a></sup>'
-            )
-        return text
+    # Block sources
+    if any(blocked in source for blocked in BLOCKED_SOURCES):
+        return False
     
-    paragraphs = ['<div class="summary-container">']
+    # Block irrelevant content
+    for pattern in IRRELEVANT_PATTERNS:
+        if re.search(pattern, text, re.IGNORECASE):
+            return False
     
-    p1 = format_paragraph_with_citations(summary.recent_developments)
-    paragraphs.append(f'<p class="summary-paragraph">{p1}</p>')
+    # Must contain some deal context
+    has_deal_context = any(
+        re.search(p, text, re.IGNORECASE) 
+        for p in MUST_CONTAIN_DEAL_CONTEXT
+    )
     
-    p2 = format_paragraph_with_citations(summary.regulatory_status)
-    paragraphs.append(f'<p class="summary-paragraph">{p2}</p>')
+    return has_deal_context
+
+def categorize_article(article: Dict[str, Any]) -> str:
+    """Categorize article by topic."""
+    text = ((article.get('title') or '') + ' ' + (article.get('description') or '')).lower()
     
-    p3 = format_paragraph_with_citations(summary.deal_comparison)
-    paragraphs.append(f'<p class="summary-paragraph">{p3}</p>')
+    for pattern in REGULATORY_PATTERNS:
+        if re.search(pattern, text):
+            return 'regulatory'
     
-    paragraphs.append('</div>')
+    for pattern in DEAL_PATTERNS:
+        if re.search(pattern, text):
+            return 'bids'
     
-    return "\n".join(paragraphs)
-
-def generate_structured_summary(news_articles: List[Dict[str, Any]], source_urls: Dict[int, str]) -> str:
-    """Generate executive summary using Gemini Structured Outputs."""
+    if re.search(r'(analyst|opinion|outlook|prediction|expect|forecast)', text):
+        return 'analysis'
     
-    # Limit articles for performance (max 15)
-    limited_articles = news_articles[:MAX_ARTICLES_FOR_SUMMARY]
+    return 'deal'
+
+def is_high_importance(article: Dict[str, Any]) -> bool:
+    """Flag high-importance articles."""
+    text = ((article.get('title') or '') + ' ' + (article.get('description') or '')).lower()
     
-    source_list = []
-    for i, a in enumerate(limited_articles, 1):
-        desc = (a.get('description') or '').replace('\n', ' ').strip()[:MAX_DESCRIPTION_LENGTH]
-        if desc:
-            source_list.append(f"[{i}] {a['source']} ({a['date']}): {a['title']}\n    Content: {desc}")
-        else:
-            source_list.append(f"[{i}] {a['source']} ({a['date']}): {a['title']}")
+    high_importance_patterns = [
+        r'tender offer',
+        r'hostile (bid|takeover)',
+        r'board (reject|accept)',
+        r'shareholder vote',
+        r'doj (block|sue|approve|clear)',
+        r'ftc (block|sue|approve|clear)',
+        r'regulatory (approve|block|clear)',
+        r'deal (close|complete|terminate|collapse)',
+        r'\$\d+.{0,5}billion.{0,20}(offer|bid)',
+    ]
     
-    prompt = f"""You are a senior M&A analyst preparing a detailed factual briefing on the Netflix–Warner Bros. Discovery transaction for institutional investors, legal counsel, and corporate executives.
+    return any(re.search(p, text) for p in high_importance_patterns)
 
-SOURCE MATERIALS:
-{chr(10).join(source_list)}
-
-Generate a comprehensive executive summary with three detailed paragraphs based on the sources above.
-
-CRITICAL STYLE REQUIREMENTS:
-- Write in neutral, objective, third-person voice appropriate for a legal or financial memorandum
-- State facts without editorial commentary, speculation, or subjective characterization
-- Avoid words like "significant," "substantial," "major," "notable," "interesting," or other qualitative descriptors unless directly quoting a source
-- Do not characterize market reactions, sentiment, or implications beyond what sources explicitly state
-- Use precise language and specific dollar amounts where available
-- Present competing claims without favoring either party
-
-PARAGRAPH 1 - RECENT DEVELOPMENTS (recent_developments):
-Provide a detailed account of the last 48-72 hours of transaction activity. Include:
-- Specific offers made with exact dollar amounts (total value and per-share price)
-- Board actions and responses (acceptances, rejections, counteroffers)
-- Public statements by named executives (David Zaslav, Ted Sarandos, Larry Ellison, Shari Redstone)
-- Deadline extensions or amendments to existing offers
-- Any changes to deal structure (e.g., shift from stock to all-cash)
-This paragraph should be 5-7 sentences with specific facts and figures.
-
-PARAGRAPH 2 - REGULATORY AND LEGAL STATUS (regulatory_status):
-Provide detailed coverage of each regulatory body's position and any legal proceedings:
-- DOJ (Department of Justice): Current review status, any statements on antitrust concerns, timeline indicators
-- FTC (Federal Trade Commission): Involvement status, any public positions or concerns raised
-- European Commission (EC): Notification status, Phase I/II review timeline, any conditions being discussed
-- UK CMA (Competition and Markets Authority): Review status, any preliminary findings or concerns
-- Canadian Competition Bureau (CCB): Filing status, review timeline
-- Court proceedings: Any lawsuits filed (e.g., Paramount vs. WBD), specific legal arguments made, hearing dates
-- Include specific quotes from regulators or legal filings where available
-This paragraph should be 6-8 sentences covering each relevant regulatory development.
-
-PARAGRAPH 3 - DEAL STRUCTURE COMPARISON (deal_comparison):
-Provide a detailed comparison of all competing offers:
-- Netflix offer: Total enterprise value, per-share price, payment structure (cash/stock mix), which assets are included (Warner Bros. studios, HBO, Max streaming platform, DC Entertainment), treatment of assets not included, financing arrangements
-- Paramount/Skydance offer: Total value, per-share price, all-cash structure details, Larry Ellison/Oracle financing role, which WBD assets targeted
-- Timeline comparison: Tender offer expiration dates, shareholder vote dates, regulatory approval deadlines, expected closing dates
-- Any conditions or contingencies attached to each offer
-This paragraph should be 5-7 sentences with specific financial terms.
-
-FORMATTING RULES:
-1. Include $ before ALL currency amounts: "$82.7 billion", "$30 per share", "$108 billion"
-2. Use [N] format for citations where N is the source number (1-{len(limited_articles)})
-3. Write flowing prose - absolutely no bullet points or lists
-4. If specific information is not available in the sources, state "not disclosed in available reporting" - do not speculate
-5. Include the citation numbers you use in the 'citations' list for each paragraph
-6. Cite multiple sources for key claims where possible"""
-
-    try:
-        model = genai.GenerativeModel(
-            "gemini-2.0-flash-exp",
-            generation_config={
-                "response_mime_type": "application/json",
-                "response_schema": ExecutiveSummary.model_json_schema()
-            }
-        )
+def deduplicate_articles(articles: List[Dict[str, Any]], threshold: float = 0.75) -> List[Dict[str, Any]]:
+    """
+    Remove duplicate articles based on title similarity and URL path.
+    Prefers Tier 1 sources.
+    """
+    if not articles:
+        return []
+    
+    # Sort by tier (prefer tier 1)
+    sorted_articles = sorted(articles, key=lambda a: get_source_tier(a.get('source_id', '')))
+    
+    unique = []
+    seen_titles = []
+    seen_urls = []
+    
+    for article in sorted_articles:
+        title = (article.get('title') or '').lower()
+        url = article.get('link', '')
         
-        response = model.generate_content(prompt)
-        summary = ExecutiveSummary.model_validate_json(response.text)
+        # Check title similarity
+        is_title_duplicate = False
+        for seen in seen_titles:
+            if SequenceMatcher(None, title, seen).ratio() > threshold:
+                is_title_duplicate = True
+                break
         
-        return format_summary_html(summary, source_urls)
-    except Exception as e:
-        raise RuntimeError(f"Structured summary generation failed: {str(e)}")
-
-def generate_fallback_summary(news_articles: List[Dict[str, Any]], source_urls: Dict[int, str]) -> str:
-    """Fallback summary generation if structured output fails."""
+        # Check URL path similarity
+        is_url_duplicate = False
+        for seen_url in seen_urls:
+            if url_path_similarity(url, seen_url) > 0.85:
+                is_url_duplicate = True
+                break
+        
+        if not is_title_duplicate and not is_url_duplicate:
+            unique.append(article)
+            seen_titles.append(title)
+            seen_urls.append(url)
     
-    limited_articles = news_articles[:MAX_ARTICLES_FOR_SUMMARY]
-    
-    source_list = []
-    for i, a in enumerate(limited_articles, 1):
-        desc = (a.get('description') or '').replace('\n', ' ').strip()[:300]
-        if desc:
-            source_list.append(f"[{i}] {a['source']}: {a['title']} - {desc}")
-        else:
-            source_list.append(f"[{i}] {a['source']}: {a['title']}")
-    
-    prompt = f"""Write a detailed 3-paragraph executive summary about the Netflix–Warner Bros. Discovery transaction for institutional investors.
-
-SOURCES:
-{chr(10).join(source_list)}
-
-STYLE: Neutral, objective, third-person voice. State facts without editorial commentary. Avoid qualitative descriptors like "significant" or "major." Appropriate for a legal memorandum.
-
-STRUCTURE:
-- Paragraph 1 (5-7 sentences): Recent developments from last 48-72 hours - specific offers with dollar amounts, board actions, executive statements from Zaslav/Sarandos/Ellison
-- Paragraph 2 (6-8 sentences): Regulatory status covering DOJ, FTC, European Commission, UK CMA, Canadian Competition Bureau - what each has said or done, any lawsuits filed
-- Paragraph 3 (5-7 sentences): Deal comparison - Netflix offer terms vs Paramount/Skydance terms, timelines, conditions
-
-RULES:
-- Use $ before all dollar amounts ($82.7 billion, $30 per share)
-- Cite sources as [1], [2], etc.
-- No bullet points, flowing prose only
-- If information not available, say "not disclosed in available reporting"
-- Be specific with numbers and names"""
-
-    try:
-        model = genai.GenerativeModel("gemini-2.0-flash-exp")
-        response = model.generate_content(prompt)
-        
-        text = response.text.strip()
-        
-        for num, url in source_urls.items():
-            text = text.replace(f"[{num}]", f'<sup><a href="{safe_escape(url)}" target="_blank">[{num}]</a></sup>')
-        
-        paragraphs = text.split('\n\n')
-        html_parts = ['<div class="summary-container">']
-        html_parts.extend([f'<p class="summary-paragraph">{p.strip()}</p>' for p in paragraphs if p.strip()])
-        html_parts.append('</div>')
-        
-        return "\n".join(html_parts)
-    except Exception as e:
-        raise RuntimeError(f"Fallback summary generation failed: {str(e)}")
+    return unique
 
 # ============================================================================
 # PARALLEL DATA FETCHING (using ThreadPoolExecutor)
@@ -1343,98 +1138,70 @@ def fetch_all_news_parallel(api_key: str) -> List[Dict[str, Any]]:
     return all_articles
 
 # ============================================================================
-# SEC EDGAR FETCHING
+# SEC FILINGS FETCH
 # ============================================================================
-
-def fetch_sec_company(company_name: str, cik: str) -> List[Dict[str, Any]]:
-    """Fetch SEC filings for a single company with error handling."""
-    filings = []
-    try:
-        headers = {
-            'User-Agent': 'Netflix-WBD-Monitor/1.0 (Enterprise Research)',
-            'Accept-Encoding': 'gzip, deflate'
-        }
-        url = f"https://data.sec.gov/submissions/CIK{cik}.json"
-        resp = requests.get(url, headers=headers, timeout=API_TIMEOUT_SEC)
-        
-        if resp.status_code == 200:
-            data = resp.json()
-            recent = data.get('filings', {}).get('recent', {})
-            
-            if recent:
-                forms = recent.get('form', [])
-                dates = recent.get('filingDate', [])
-                accessions = recent.get('accessionNumber', [])
-                primary_docs = recent.get('primaryDocument', [])
-                doc_descriptions = recent.get('primaryDocDescription', [])
-                
-                cutoff = (datetime.utcnow() - timedelta(days=30)).strftime('%Y-%m-%d')
-                
-                for i in range(min(30, len(forms))):
-                    if dates[i] >= cutoff:
-                        form_type = forms[i]
-                        if any(f in form_type for f in RELEVANT_FORMS):
-                            accession_clean = accessions[i].replace('-', '')
-                            cik_clean = cik.lstrip('0')
-                            filing_url = f"https://www.sec.gov/Archives/edgar/data/{cik_clean}/{accession_clean}/{primary_docs[i]}"
-                            
-                            description = SEC_FORM_DESCRIPTIONS.get(form_type, form_type)
-                            if doc_descriptions and i < len(doc_descriptions) and doc_descriptions[i]:
-                                description = doc_descriptions[i]
-                            
-                            filings.append({
-                                'company': company_name,
-                                'form': form_type,
-                                'form_description': SEC_FORM_DESCRIPTIONS.get(form_type, form_type),
-                                'date': dates[i],
-                                'url': filing_url,
-                                'title': description,
-                                'filename': primary_docs[i]
-                            })
-    except requests.exceptions.Timeout:
-        pass  # Silently handle timeout
-    except requests.exceptions.RequestException:
-        pass  # Silently handle network errors
-    except Exception:
-        pass  # Silently handle other errors
-    
-    return filings
-
-# ============================================================================
-# CACHED DATA LOADING
-# ============================================================================
-
-def _hash_ignore_secrets(secrets):
-    """Hash function that ignores secrets for caching."""
-    return "static_hash"
 
 @st.cache_data(ttl=CACHE_TTL_SEC, show_spinner=False)
 def fetch_sec_filings() -> List[Dict[str, Any]]:
-    """Fetch recent SEC filings for Netflix, WBD, and Paramount with caching."""
+    """Fetch SEC filings for tracked companies."""
     all_filings = []
+    
+    def fetch_company(company: str, cik: str) -> List[Dict[str, Any]]:
+        filings = []
+        try:
+            url = f"https://data.sec.gov/submissions/CIK{cik}.json"
+            headers = {"User-Agent": "ResearchBot/1.0 (research@example.com)"}
+            resp = requests.get(url, headers=headers, timeout=API_TIMEOUT_SEC)
+            
+            if resp.status_code == 200:
+                data = resp.json()
+                recent = data.get('filings', {}).get('recent', {})
+                forms = recent.get('form', [])
+                dates = recent.get('filingDate', [])
+                accessions = recent.get('accessionNumber', [])
+                descriptions = recent.get('primaryDocDescription', [])
+                
+                cutoff = (datetime.utcnow() - timedelta(days=30)).strftime('%Y-%m-%d')
+                
+                for i, form in enumerate(forms[:50]):
+                    if form in SEC_MA_FORMS and dates[i] >= cutoff:
+                        acc = accessions[i].replace('-', '')
+                        filings.append({
+                            'company': company,
+                            'form': form,
+                            'form_description': SEC_FORM_DESCRIPTIONS.get(form, form),
+                            'date': dates[i],
+                            'title': descriptions[i] if i < len(descriptions) else form,
+                            'url': f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc}/{accessions[i]}-index.htm"
+                        })
+        except requests.exceptions.Timeout:
+            pass
+        except requests.exceptions.RequestException:
+            pass
+        except Exception:
+            pass
+        return filings
     
     # Use ThreadPoolExecutor for parallel SEC fetching
     with ThreadPoolExecutor(max_workers=3) as executor:
-        futures = {
-            executor.submit(fetch_sec_company, name, cik): name 
-            for name, cik in SEC_COMPANIES.items()
-        }
-        for future in futures:
+        futures = {executor.submit(fetch_company, company, cik): company 
+                   for company, cik in SEC_COMPANIES.items()}
+        for future in as_completed(futures):
             try:
                 filings = future.result(timeout=API_TIMEOUT_SEC + 5)
                 all_filings.extend(filings)
             except Exception:
                 continue
     
-    all_filings.sort(key=lambda x: x['date'], reverse=True)
-    return all_filings[:20]
+    return sorted(all_filings, key=lambda x: x['date'], reverse=True)
+
+# ============================================================================
+# DATA LOADING
+# ============================================================================
 
 @st.cache_data(ttl=CACHE_TTL_DATA, show_spinner=False)
 def load_all_data(_cache_key: str) -> Dict[str, Any]:
-    """
-    Load and process all article data with comprehensive error handling.
-    _cache_key is used to allow manual invalidation via session_state.
-    """
+    """Load and merge all data sources."""
     archived = []
     fresh = []
     worksheet = None
@@ -1479,24 +1246,24 @@ def load_all_data(_cache_key: str) -> Dict[str, Any]:
         try:
             fields = ['title', 'link', 'pubDate', 'description', 'source_id', 'image_url']
             rows = [[a.get(field, '') for field in fields] for a in new_articles]
-            worksheet.append_rows(rows, value_input_option='RAW')
+            worksheet.append_rows(rows)
             saved_count = len(new_articles)
         except Exception:
-            pass  # Silently handle save errors
+            pass
     
-    all_articles = archived + new_articles
+    # Combine all articles
+    all_articles = archived + fresh
     
-    # Filter, deduplicate, and sort
+    # Filter, deduplicate, categorize
     relevant = [a for a in all_articles if is_relevant_article(a)]
     unique = deduplicate_articles(relevant)
-    unique.sort(key=lambda x: parse_pubdate(x.get('pubDate')), reverse=True)
     
-    # Categorize articles
+    # Sort by date (newest first)
+    unique.sort(key=lambda a: parse_pubdate(a.get('pubDate')), reverse=True)
+    
+    # Add category and importance
     for a in unique:
-        cat, icon, color = categorize_article(a)
-        a['category'] = cat
-        a['cat_icon'] = icon
-        a['cat_color'] = color
+        a['category'] = categorize_article(a)
         a['important'] = is_high_importance(a)
     
     return {
@@ -1530,10 +1297,10 @@ def render_feed(articles_list: List[Dict[str, Any]], max_items: int = 20) -> Non
         important = article.get('important', False)
         
         marker = "🔴 " if important else ""
-        st.markdown(f"**{date}** · {marker}{source}  \n[{title}]({link})")
+        st.markdown(f"**{date}** · {marker}{source} [{title}]({link})")
         
         if i < min(max_items, len(articles_list)) - 1:
-            st.markdown("<hr style='margin: 0.5rem 0; border: none; border-top: 1px solid #E5E5EA;'>", unsafe_allow_html=True)
+            st.markdown("<hr style='margin: 0.25rem 0; border: none; border-top: 1px solid #E5E5EA;'>", unsafe_allow_html=True)
 
 def render_sec_filings(filings_list: List[Dict[str, Any]], max_items: int = 20) -> None:
     """Render SEC filings with plain language descriptions."""
@@ -1557,12 +1324,11 @@ def render_sec_filings(filings_list: List[Dict[str, Any]], max_items: int = 20) 
         company = safe_escape(filing['company'])
         
         st.markdown(
-            f"**{date}** · {emoji} {company} · **{form_type}** ({form_desc})  \n"
-            f"[{title}]({url})"
+            f"**{date}** · {emoji} {company} · **{form_type}** ({form_desc}) [{title}]({url})"
         )
         
         if i < min(max_items, len(filings_list)) - 1:
-            st.markdown("<hr style='margin: 0.5rem 0; border: none; border-top: 1px solid #E5E5EA;'>", unsafe_allow_html=True)
+            st.markdown("<hr style='margin: 0.25rem 0; border: none; border-top: 1px solid #E5E5EA;'>", unsafe_allow_html=True)
 
 # ============================================================================
 # MAIN APPLICATION
@@ -1718,63 +1484,168 @@ if GEMINI_AVAILABLE and articles:
     
     # Limit total articles for summary (max 15)
     all_news_sources = (breaking_for_prompt + articles_for_prompt)[:MAX_ARTICLES_FOR_SUMMARY]
-    source_urls = {i: a['url'] for i, a in enumerate(all_news_sources, 1)}
+    
+    @st.cache_data(ttl=CACHE_TTL_SUMMARY, show_spinner=False)
+    def generate_structured_summary(articles_json: str) -> str:
+        """Generate executive summary using Gemini with structured output."""
+        limited_articles = json.loads(articles_json)
+        
+        # Build source list for prompt
+        source_list = []
+        for i, article in enumerate(limited_articles, 1):
+            source_list.append(f"[{i}] {article['source']} ({article['date']}): {article['title']}\nDescription: {article['description']}\nURL: {article['url']}")
+        
+        prompt = f"""You are a senior M&A analyst preparing a detailed factual briefing on the Netflix–Warner Bros. Discovery transaction for institutional investors, legal counsel, and corporate executives.
 
+SOURCE MATERIALS:
+{chr(10).join(source_list)}
+
+Generate a comprehensive executive summary with three detailed paragraphs based on the sources above. Cross-reference multiple sources for key facts to ensure accuracy; if conflicting information exists, note it objectively.
+
+CRITICAL STYLE REQUIREMENTS:
+- Write in neutral, objective, third-person voice appropriate for a legal or financial memorandum
+- State facts without editorial commentary, speculation, or subjective characterization
+- Avoid words like "significant," "substantial," "major," "notable," "interesting," or other qualitative descriptors unless directly quoting a source
+- Do not characterize market reactions, sentiment, or implications beyond what sources explicitly state
+- Use precise language and specific dollar amounts where available
+- Present competing claims without favoring either party
+- Keep sentences concise; aim for clarity and density without redundancy
+
+PARAGRAPH 1 - RECENT DEVELOPMENTS (recent_developments):
+Provide a detailed account of the last 48-72 hours of transaction activity. Include:
+- Specific offers made with exact dollar amounts (total value and per-share price)
+- Board actions and responses (acceptances, rejections, counteroffers)
+- Public statements by named executives (David Zaslav, Ted Sarandos, Larry Ellison, Shari Redstone)
+- Deadline extensions or amendments to existing offers
+- Any changes to deal structure (e.g., shift from stock to all-cash)
+This paragraph should be 5-7 sentences with specific facts and figures. If details are sparse, consolidate into fewer sentences without filler.
+
+PARAGRAPH 2 - REGULATORY AND LEGAL STATUS (regulatory_status):
+Provide detailed coverage of each regulatory body's position and any legal proceedings:
+- DOJ (Department of Justice): Current review status, any statements on antitrust concerns, timeline indicators
+- FTC (Federal Trade Commission): Involvement status, any public positions or concerns raised
+- European Commission (EC): Notification status, Phase I/II review timeline, any conditions being discussed
+- UK CMA (Competition and Markets Authority): Review status, any preliminary findings or concerns
+- Canadian Competition Bureau (CCB): Filing status, review timeline
+- Court proceedings: Any lawsuits filed (e.g., Paramount vs. WBD), specific legal arguments made, hearing dates
+- Include specific quotes from regulators or legal filings where available
+This paragraph should be 6-8 sentences covering each relevant regulatory development. Use "not disclosed in available reporting" only once per missing category to avoid repetition.
+
+PARAGRAPH 3 - DEAL STRUCTURE COMPARISON (deal_comparison):
+Provide a detailed comparison of all competing offers:
+- Netflix offer: Total enterprise value, per-share price, payment structure (cash/stock mix), which assets are included (Warner Bros. studios, HBO, Max streaming platform, DC Entertainment), treatment of assets not included, financing arrangements
+- Paramount/Skydance offer: Total value, per-share price, all-cash structure details, Larry Ellison/Oracle financing role, which WBD assets targeted
+- Timeline comparison: Tender offer expiration dates, shareholder vote dates, regulatory approval deadlines, expected closing dates
+- Any conditions or contingencies attached to each offer
+This paragraph should be 5-7 sentences with specific financial terms. Highlight differences objectively.
+
+FORMATTING RULES:
+1. Include $ before ALL currency amounts: "$82.7 billion", "$30 per share", "$108 billion"
+2. Use [N] format for citations where N is the source number (1-{len(limited_articles)})
+3. Write flowing prose - absolutely no bullet points or lists
+4. If specific information is not available in the sources, state "not disclosed in available reporting" - do not speculate or repeat unnecessarily
+5. Include the citation numbers you use in the 'citations' list for each paragraph
+6. Cite multiple sources for key claims where possible"""
+        
+        try:
+            model = genai.GenerativeModel(
+                model_name="gemini-2.0-flash",
+                generation_config={
+                    "temperature": 0.3,
+                    "top_p": 0.95,
+                    "response_mime_type": "application/json",
+                    "response_schema": ExecutiveSummary.model_json_schema()
+                }
+            )
+            
+            response = model.generate_content(prompt)
+            result = json.loads(response.text)
+            
+            # Build URL mapping for citations
+            url_map = {i+1: article['url'] for i, article in enumerate(limited_articles)}
+            
+            def format_paragraph_with_links(content: str, citations: List[int]) -> str:
+                """Convert [N] citations to clickable superscript links."""
+                formatted = content
+                for cite_num in sorted(set(citations), reverse=True):
+                    if cite_num in url_map:
+                        url = safe_escape(url_map[cite_num])
+                        formatted = formatted.replace(
+                            f"[{cite_num}]",
+                            f'<sup><a href="{url}" target="_blank">[{cite_num}]</a></sup>'
+                        )
+                return formatted
+            
+            # Format each paragraph
+            sections = []
+            
+            if 'recent_developments' in result:
+                rd = result['recent_developments']
+                content = format_paragraph_with_links(rd.get('content', ''), rd.get('citations', []))
+                sections.append(f'<p class="summary-paragraph">{content}</p>')
+            
+            if 'regulatory_status' in result:
+                rs = result['regulatory_status']
+                content = format_paragraph_with_links(rs.get('content', ''), rs.get('citations', []))
+                sections.append(f'<p class="summary-paragraph">{content}</p>')
+            
+            if 'deal_comparison' in result:
+                dc = result['deal_comparison']
+                content = format_paragraph_with_links(dc.get('content', ''), dc.get('citations', []))
+                sections.append(f'<p class="summary-paragraph">{content}</p>')
+            
+            if sections:
+                return f'<div class="summary-container">{chr(10).join(sections)}</div>'
+            
+        except Exception as e:
+            pass
+        
+        return ""
+    
+    def generate_fallback_summary(articles_list: List[Dict[str, Any]]) -> str:
+        """Generate a simple fallback summary when AI is unavailable."""
+        if not articles_list:
+            return '<div class="summary-container"><p class="summary-paragraph">No recent articles available for summary.</p></div>'
+        
+        top_articles = articles_list[:5]
+        summary_parts = []
+        for i, article in enumerate(top_articles, 1):
+            title = article.get('title', 'Untitled')
+            source = article.get('source', 'Unknown')
+            url = safe_escape(article.get('url', '#'))
+            summary_parts.append(f'{title} ({source})<sup><a href="{url}" target="_blank">[{i}]</a></sup>')
+        
+        content = '. '.join(summary_parts) + '.'
+        return f'<div class="summary-container"><p class="summary-paragraph"><strong>Latest Coverage:</strong> {content}</p></div>'
+    
+    # Generate summary
     try:
-        with st.spinner("Generating summary..."):
-            try:
-                summary_html = generate_structured_summary(all_news_sources, source_urls)
-            except Exception:
-                summary_html = generate_fallback_summary(all_news_sources, source_urls)
-            
+        summary_html = generate_structured_summary(json.dumps(all_news_sources))
+        if summary_html:
             st.markdown(summary_html, unsafe_allow_html=True)
-            
-            with st.expander("View Sources"):
-                for i, a in enumerate(all_news_sources, 1):
-                    title_preview = a['title'][:55] + "..." if len(a['title']) > 55 else a['title']
-                    st.markdown(
-                        f'<p class="source-list-item"><strong>[{i}]</strong> '
-                        f'<a href="{safe_escape(a["url"])}" target="_blank">{safe_escape(a["source"])}</a> '
-                        f'— {safe_escape(title_preview)}</p>',
-                        unsafe_allow_html=True
-                    )
-                    
+        else:
+            st.markdown(generate_fallback_summary(articles_for_prompt), unsafe_allow_html=True)
     except Exception as e:
-        st.markdown(
-            '<div class="summary-container"><p class="summary-paragraph">'
-            'Summary generation encountered an error. Please refresh to try again.</p></div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(generate_fallback_summary(articles_for_prompt), unsafe_allow_html=True)
 else:
-    if not GEMINI_AVAILABLE:
-        st.markdown(
-            '<div class="summary-container"><p class="summary-paragraph">'
-            'AI summary unavailable. Please configure Gemini API key.</p></div>',
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            '<div class="summary-container"><p class="summary-paragraph">'
-            'No articles available for summary.</p></div>',
-            unsafe_allow_html=True
-        )
+    st.markdown("""
+    <div class="summary-container">
+        <p class="summary-paragraph">AI-powered executive summary is currently unavailable. Please check API configuration.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.divider()
 
-# Recent Coverage
-st.markdown('<p class="section-title">RECENT COVERAGE</p>', unsafe_allow_html=True)
+# Categorized News Tabs
+st.markdown('<p class="section-title">NEWS BY CATEGORY</p>', unsafe_allow_html=True)
 
-tab_all, tab_deal, tab_reg, tab_bids, tab_sec, tab_analysis = st.tabs([
-    f"All ({len(recent)})",
-    f"Deal ({cat_counts['deal']})",
-    f"Regulatory ({cat_counts['regulatory']})",
-    f"Bids ({cat_counts['bids']})",
-    f"SEC Filings ({len(sec_filings)})",
-    f"Analysis ({cat_counts['analysis']})"
+tab_deal, tab_reg, tab_bids, tab_sec, tab_analysis = st.tabs([
+    f"📰 Deal News ({cat_counts['deal']})",
+    f"🏛️ Regulatory ({cat_counts['regulatory']})",
+    f"💰 Bids & Offers ({cat_counts['bids']})",
+    f"📑 SEC Filings ({len(sec_filings)})",
+    f"📊 Analysis ({cat_counts['analysis']})"
 ])
-
-with tab_all:
-    render_feed(recent, 25)
 
 with tab_deal:
     deal_arts = [a for a in recent if a.get('category') == 'deal']
@@ -1802,3 +1673,6 @@ with tab_analysis:
 # Full Archive
 with st.expander(f"Full Archive ({len(articles)} articles)"):
     render_feed(articles, 100)
+
+# Footer
+st.markdown("""<hr style='margin: 0.75rem 0;'><p style='text-align: center; color: var(--text-tertiary); font-size: 0.75rem; margin: 0;'>Built by Mohit Sethi (@_MohitSethi) – Toronto, January 2026 · v1.0</p>""", unsafe_allow_html=True)
